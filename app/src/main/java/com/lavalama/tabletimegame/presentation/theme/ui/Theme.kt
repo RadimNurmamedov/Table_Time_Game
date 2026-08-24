@@ -1,6 +1,5 @@
-package com.lavalama.tabletimegame.ui.theme
+package com.lavalama.tabletimegame.presentation.theme.ui
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -32,22 +31,33 @@ private val LightColorScheme = lightColorScheme(
     onSurface = Color(0xFF1C1B1F),
     */
 )
-// Оформление в Compose ColorScheme
-val TableTimeDarkColorScheme = darkColorScheme(
+
+val TableTimeLightColorScheme = lightColorScheme(
     primary = AmberGold,
-    onPrimary = DarkWood,
-    background = DarkWood,
-    surface = WarmCard,
-    //surfaceVariant = Color(0xFF382E29),
-    onBackground = TextPrimary,
-    onSurface = TextPrimary,
-    outline = TextSecondary
+    onPrimary = White,
+    background = LightBackground,
+    surface = LightSurface,
+    surfaceVariant = LightSurfaceVariant,
+    onBackground = LightTextPrimary,
+    onSurface = LightTextPrimary,
+    outline = LightTextSecondary
+)
+
+val TableTimeDarkColorScheme = darkColorScheme(
+    primary = AmberGoldDark,
+    onPrimary = DarkBackground,
+    background = DarkBackground,
+    surface = DarkSurface,
+    surfaceVariant = DarkSurfaceVariant,
+    onBackground = DarkTextPrimary,
+    onSurface = DarkTextPrimary,
+    outline = DarkTextSecondary
 )
 @Composable
 fun TableTimeGameTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
@@ -56,7 +66,7 @@ fun TableTimeGameTheme(
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
 
-        darkTheme -> DarkColorScheme
+        darkTheme -> TableTimeDarkColorScheme
         else -> LightColorScheme
     }
 

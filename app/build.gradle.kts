@@ -1,6 +1,10 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+
+    alias(libs.plugins.hilt.android)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -40,6 +44,36 @@ android {
 }
 
 dependencies {
+    // Jetpack Compose & Navigation
+    implementation(libs.androidx.navigation.compose)
+
+    // Architecture & Lifecycle
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+
+    // Dependency Injection (Hilt)
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
+
+    // Database (Room)
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
+
+    // Data Store & Preferences
+    implementation(libs.androidx.datastore.preferences)
+
+    // Background Work (WorkManager)
+    implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.androidx.hilt.work)
+
+    // Networking (Retrofit & Serialization)
+    implementation(libs.kotlinx.serialization.json)
+
+    // Image Loading (Coil)
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

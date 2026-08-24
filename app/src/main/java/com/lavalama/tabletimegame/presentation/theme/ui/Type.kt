@@ -1,4 +1,4 @@
-package com.lavalama.tabletimegame.ui.theme
+package com.lavalama.tabletimegame.presentation.theme.ui
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
