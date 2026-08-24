@@ -1,15 +1,14 @@
 package com.lavalama.tabletimegame.data.remote
 
-import com.lavalama.tabletimegame.domain.entity.TTImproMember
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class TTGameDto(
     @SerialName("gameTitle")
-    val title: String = "",
+    val title: Int = 0,
     @SerialName("season")
-    val season: String = "",
+    val season: Int = 0,
     @SerialName("episodeNumber")
     val episodeNumber: String = "",
     @SerialName("host")

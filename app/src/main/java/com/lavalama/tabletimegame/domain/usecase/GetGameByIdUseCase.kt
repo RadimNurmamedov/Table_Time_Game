@@ -7,7 +7,7 @@ import javax.inject.Inject
 class GetGameByIdUseCase @Inject constructor(
     private val repository: TTRepository
 ) {
-    operator fun invoke(id: Int): TTGame{
+      suspend operator fun invoke(id: Int): TTGame{
         return repository.getGameById(id)
     }
 }

@@ -1,6 +1,7 @@
 package com.lavalama.tabletimegame.domain.entity
 
 data class TTGame(
+    val id: Int,
     val title: String,
     val season: Int,
     val episodeNumber: Int,

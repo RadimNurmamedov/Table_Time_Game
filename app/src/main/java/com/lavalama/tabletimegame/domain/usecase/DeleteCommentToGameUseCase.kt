@@ -6,7 +6,7 @@ import javax.inject.Inject
 class DeleteCommentToGameUseCase @Inject constructor(
     private val repository: TTRepository
 ) {
-    suspend operator fun invoke(gameId: Int, comment: String){
+    suspend operator fun invoke(gameId: Int){
         return repository.deleteCommentToGame(gameId)
     }
 }

@@ -3,7 +3,6 @@ package com.lavalama.tabletimegame.data.local
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.lavalama.tabletimegame.domain.entity.TTImproMember
 
 @Entity(
     tableName = "tt_games",
