@@ -7,8 +7,8 @@ data class TTGame(
     val host: TTImproMember, // Кто принес игру
     val shortRules: String,  // Краткое описание
     val fullRules: String,   // Подробные правила
-    val genre: String,       // Блеф, Реакция, Ассоциации и т.д.
-    val winner: TTImproMember?, // Кто забрал баллы/раунд
+    val genre: List<String>,       // Блеф, Реакция, Ассоциации и т.д.
+    val winner: TTImproMember, // Кто забрал баллы/раунд
     val imageUrl: String,
     val isFavorite: Boolean = false,
     val myComment: String = ""
