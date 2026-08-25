@@ -53,7 +53,7 @@ dependencies {
     // Dependency Injection (Hilt)
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
-    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.hilt.navigation.compose)   //
 
     // Database (Room)
     implementation(libs.androidx.room.runtime)
@@ -61,14 +61,17 @@ dependencies {
     implementation(libs.androidx.room.ktx)
 
     // Data Store & Preferences
-    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.androidx.datastore.preferences) //
 
     // Background Work (WorkManager)
-    implementation(libs.androidx.work.runtime.ktx)
-    implementation(libs.androidx.hilt.work)
+    implementation(libs.androidx.work.runtime.ktx) //
+    implementation(libs.androidx.hilt.work) //
 
     // Networking (Retrofit & Serialization)
     implementation(libs.kotlinx.serialization.json)
+    implementation (libs.retrofit) // Подключаем саму библиотеку Retrofit
+    implementation (libs.converter.gson) // Подключаем конвертер для работы с JSON
+    implementation(libs.converter.kotlinx.serialization) // Подключаем конвертер для работы с JSON
 
     // Image Loading (Coil)
     implementation(libs.coil.compose)
