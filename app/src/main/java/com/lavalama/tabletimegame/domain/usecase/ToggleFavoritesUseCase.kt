@@ -8,7 +8,7 @@ import javax.inject.Inject
 class ToggleFavoritesUseCase @Inject constructor(
     private val repository: TTRepository
 ) {
-    suspend operator fun invoke(gameId: Int): Boolean {
-        return repository.toggleFavorites(gameId)
+    suspend operator fun invoke(gameId: Int) {
+        repository.toggleFavorites(gameId)
     }
 }

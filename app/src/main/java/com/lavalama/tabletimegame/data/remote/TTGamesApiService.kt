@@ -4,5 +4,5 @@ import retrofit2.http.GET
 
 interface TTGamesApiService {
     @GET("data/games.json")//эндпоинт запроса
-    suspend fun loadGames(): TTGamesResponseDto
+    suspend fun loadGames(): List<TTGameDto>
 }

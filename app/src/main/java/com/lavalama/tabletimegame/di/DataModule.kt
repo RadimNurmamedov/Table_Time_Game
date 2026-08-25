@@ -5,6 +5,9 @@ import androidx.room.Room
 import com.lavalama.tabletimegame.data.local.TTGamesDao
 import com.lavalama.tabletimegame.data.local.TTGamesDatabase
 import com.lavalama.tabletimegame.data.remote.TTGamesApiService
+import com.lavalama.tabletimegame.data.repository.TTRepositoryImpl
+import com.lavalama.tabletimegame.domain.repository.TTRepository
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,6 +26,12 @@ import kotlin.jvm.java
 @Module
 @InstallIn(SingletonComponent::class)
 interface DataModule {
+
+    @Binds
+    @Singleton
+    fun bindNewsRepository(
+        impl: TTRepositoryImpl
+    ): TTRepository
 
     companion object{
         @Provides
@@ -81,6 +90,6 @@ interface DataModule {
             return database.ttGamesDao()
         }
 
-        private const val BASE_URL = "https://raw.githubusercontent.com/RadimNurmamedov/Table_Time_Game/main/"
+        private const val BASE_URL = "https://raw.githubusercontent.com/RadimNurmamedov/Table_Time_Game/master/"
     }
 }

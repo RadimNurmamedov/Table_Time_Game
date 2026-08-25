@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 interface TTRepository {
     fun getAllGames(): Flow<List<TTGame>>
     suspend fun getGameById(gameId: Int): TTGame
-    suspend fun toggleFavorites(gameId: Int): Boolean
+    suspend fun toggleFavorites(gameId: Int)
     suspend fun addCommentToGame(gameId: Int, comment: String)
     suspend fun deleteCommentToGame(gameId: Int)
 }
