@@ -1,6 +1,8 @@
 package com.lavalama.tabletimegame.data.local
 
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 
@@ -16,4 +18,6 @@ interface TTGamesDao {
     suspend fun addCommentToGame(gameId: Int, comment: String)
     @Query("UPDATE tt_games SET myComment = '' WHERE id = :gameId")
     suspend fun deleteCommentToGame(gameId: Int)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertTTGames(games: List<TTGameDbModel>): List<Long>
 }
