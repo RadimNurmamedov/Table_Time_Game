@@ -6,11 +6,11 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class TTGameDto(
     @SerialName("gameTitle")
-    val title: Int = 0,
+    val title: String = "",
     @SerialName("season")
     val season: Int = 0,
     @SerialName("episodeNumber")
-    val episodeNumber: String = "",
+    val episodeNumber: Int = 0,
     @SerialName("host")
     val host: String, // Кто принес игру
     @SerialName("shortRules")
