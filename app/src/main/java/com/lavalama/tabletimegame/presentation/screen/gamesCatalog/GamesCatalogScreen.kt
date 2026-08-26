@@ -59,6 +59,7 @@ fun GamesCatalogScreen(
     modifier: Modifier = Modifier,
     onSettingsNavigate: () -> Unit,
     onFavoriteNavigate: () -> Unit,
+    onGameDetailsNavigate: (Int) -> Unit,
     viewModel: GamesCatalogViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
@@ -76,7 +77,16 @@ fun GamesCatalogScreen(
                             contentDescription = "Open Settings screen"
                         )
                     }
-                }
+                    IconButton(
+                        onClick = onFavoriteNavigate
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Favorite,
+                            contentDescription = "Open Favorites games screen",
+                            tint = Color.Red
+                        )
+                    }
+                },
             )
         }
     ) { innerPadding ->
@@ -111,7 +121,9 @@ fun GamesCatalogScreen(
                     items(items = filteredGames, key = { it.id }){game ->
                         GameCard(
                             game = game,
-                            onClick = onFavoriteNavigate
+                            onClick = {
+                                onGameDetailsNavigate(it)
+                            }
                         )
                     }
                 }
@@ -126,7 +138,6 @@ fun SearchPanel(
     query: String = "",
     onInputQuery: (String) -> Unit
 ){
-
     Row(
         modifier = modifier
     ) {
@@ -170,28 +181,16 @@ fun SeasonHeader(seasonNumber: Int) {
 @Composable
 fun GameCard(
     game: TTGame,
-    onClick: () -> Unit
+    onClick: (Int) -> Unit
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp)
-            .clickable { onClick() },
+            .clickable { onClick(game.id) },
         shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
-        // Картинка во всю ширину с сохранением пропорций 16:9
-//        AsyncImage(
-//            model = game.imageUrl,
-//            contentDescription = game.title,
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .aspectRatio(16f / 9f)
-//                .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)),
-//            contentScale = ContentScale.Crop,
-//            error = painterResource(R.drawable.ic_launcher_background),
-//            placeholder = painterResource(R.drawable.ic_launcher_background)
-//        )
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -211,25 +210,6 @@ fun GameCard(
                 error = painterResource(R.drawable.ic_launcher_background),
                 placeholder = painterResource(R.drawable.ic_launcher_background)
             )
-//            AsyncImage(
-//                model = game.imageUrl,
-//                contentDescription = game.title,
-//                modifier = Modifier
-//                    .size(110.dp, 80.dp) // Прямоугольный размер (ширина x высота)
-//                    .clip(RoundedCornerShape(12.dp))
-//                    .background(Color.Black), // Фон закроет пустые поля
-//                contentScale = ContentScale.Fit, // Картинка помещается полностью без обрезки
-//                error = painterResource(R.drawable.ic_launcher_background),
-//                placeholder = painterResource(R.drawable.ic_launcher_background)
-//            )
-//            AsyncImage(
-//                model = game.imageUrl,
-//                contentDescription = game.title,
-//                modifier = Modifier
-//                    .size(90.dp)
-//                    .clip(RoundedCornerShape(12.dp)),
-//                contentScale = ContentScale.Crop
-//            )
             Spacer(modifier = Modifier.width(16.dp))
             // Описание игры
             Column(

@@ -137,26 +137,26 @@ fun GameDetailsStateContent(
             }
             item {
                 CardDetail(
-                    title = "Короткие правила",
+                    title = "Описание",
                     content = game.shortRules
                 )
             }
             item {
                 CardDetail(
-                    title = "Полные правила",
+                    title = "Правила",
                     content = game.fullRules
                 )
             }
             item {
                 CardDetail(
                     title = "Ведущий",
-                    content = game.host.name
+                    content = game.host.displayName
                 )
             }
             item {
                 CardDetail(
                     title = "Победитель",
-                    content = game.winner.name
+                    content = game.winner.displayName
                 )
             }
             item {
@@ -205,17 +205,20 @@ fun CardDetail(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
-        shape = RoundedCornerShape(16.dp),
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+            ,
+        shape = RoundedCornerShape(8.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Text(
+            modifier = Modifier.padding(horizontal = 8.dp),
             text = title,
             style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.primary
         )
         Spacer(Modifier.height(4.dp))
         Text(
+            modifier = Modifier.padding(horizontal = 8.dp),
             text = content,
             style = MaterialTheme.typography.bodyMedium
         )
