@@ -58,8 +58,10 @@ class TTRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getGameById(gameId: Int): TTGame {
-        return dao.getTTGameById(gameId).toEntity()
+    override fun getGameById(gameId: Int): Flow<TTGame> {
+        return dao.getTTGameById(gameId).map {
+            it.toEntity()
+        }
     }
 
     override suspend fun toggleFavorites(gameId: Int) {

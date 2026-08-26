@@ -11,7 +11,7 @@ interface TTGamesDao {
     @Query("SELECT * FROM tt_games")
     fun getTTGames(): Flow<List<TTGameDbModel>>
     @Query("SELECT * FROM tt_games WHERE id = :gameId")
-    suspend fun getTTGameById(gameId: Int): TTGameDbModel
+    fun getTTGameById(gameId: Int): Flow<TTGameDbModel>
     @Query("UPDATE tt_games SET isFavorite = NOT isFavorite WHERE id == :gameId")
     suspend fun toggleFavorites(gameId: Int)
     @Query("UPDATE tt_games SET myComment = :comment WHERE id = :gameId")
