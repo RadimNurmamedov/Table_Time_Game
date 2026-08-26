@@ -34,13 +34,14 @@ class TTRepositoryImpl @Inject constructor(
             val localGamesMap = dao
                 .getTTGames()
                 .first()
-                .associateBy { it.id }
+                .associateBy { "${it.season}/${it.episodeNumber}" }
 
             // 3. Сохраняем пользовательские поля (isFavorite и myComment)
             val mergedGames = remoteGames.map { remote ->
-                val local = localGamesMap[remote.id]
+                val local = localGamesMap["${remote.season}/${remote.episodeNumber}"]
                 if (local != null) {
                     remote.copy(
+                        id = local.id,
                         isFavorite = local.isFavorite,
                         myComment = local.myComment
                     )

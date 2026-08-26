@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.lifecycleScope
 import com.lavalama.tabletimegame.data.repository.TTRepositoryImpl
 import com.lavalama.tabletimegame.domain.repository.TTRepository
+import com.lavalama.tabletimegame.presentation.screen.gamesCatalog.GamesCatalogScreen
 import com.lavalama.tabletimegame.presentation.theme.ui.TableTimeGameTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -25,39 +26,14 @@ class MainActivity : ComponentActivity() {
     @Inject lateinit var repository: TTRepositoryImpl
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        lifecycleScope.launch {
-            val response = repository.loadTTGames()
-            Log.d("TTGamesLogs", response.size.toString())
-            response.forEach {
-                Log.d("TTGamesLogs", it.toString())
-            }
-        }
         enableEdgeToEdge()
         setContent {
             TableTimeGameTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                GamesCatalogScreen(
+                    onSettingsNavigate = {},
+                    onFavoriteNavigate = {},
+                )
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    TableTimeGameTheme {
-        Greeting("Android")
     }
 }
