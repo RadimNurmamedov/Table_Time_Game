@@ -12,7 +12,7 @@
       "Карточные"
     ],
     "winner": "SERGEY",
-    "imageUrl": "https://raw.githubusercontent.com/RadimNurmamedov/Table_Time_Game/main/data/images/s1_ep1.jpg"
+    "imageUrl": "https://raw.githubusercontent.com/RadimNurmamedov/Table_Time_Game/master/data/images/s1_ep1.jpg"
   },
   {
     "gameTitle": "Шляпа",
@@ -27,7 +27,7 @@
       "Командные"
     ],
     "winner": "POZ",
-    "imageUrl": "https://raw.githubusercontent.com/RadimNurmamedov/Table_Time_Game/main/data/images/s1_ep2.jpg"
+    "imageUrl": "https://raw.githubusercontent.com/RadimNurmamedov/Table_Time_Game/master/data/images/s1_ep2.jpg"
   },
   {
     "gameTitle": "Перудо (Пиратские кости)",
@@ -42,7 +42,7 @@
       "Психология"
     ],
     "winner": "POZ",
-    "imageUrl": "https://raw.githubusercontent.com/RadimNurmamedov/Table_Time_Game/main/data/images/s1_ep3.jpg"
+    "imageUrl": "https://raw.githubusercontent.com/RadimNurmamedov/Table_Time_Game/master/data/images/s1_ep3.jpg"
   },
   {
     "gameTitle": "Лото",
@@ -57,7 +57,7 @@
       "Азарт"
     ],
     "winner": "ARS",
-    "imageUrl": "https://raw.githubusercontent.com/RadimNurmamedov/Table_Time_Game/main/data/images/s1_ep4.jpg"
+    "imageUrl": "https://raw.githubusercontent.com/RadimNurmamedov/Table_Time_Game/master/data/images/s1_ep4.jpg"
   },
   {
     "gameTitle": "Пароль",
@@ -72,7 +72,7 @@
       "Логика"
     ],
     "winner": "SERGEY",
-    "imageUrl": "https://raw.githubusercontent.com/RadimNurmamedov/Table_Time_Game/main/data/images/s1_ep5.jpg"
+    "imageUrl": "https://raw.githubusercontent.com/RadimNurmamedov/Table_Time_Game/master/data/images/s1_ep5.jpg"
   },
   {
     "gameTitle": "Верю – не верю",
@@ -87,7 +87,7 @@
       "Интуиция"
     ],
     "winner": "POZ",
-    "imageUrl": "https://raw.githubusercontent.com/RadimNurmamedov/Table_Time_Game/main/data/images/s1_ep6.jpg"
+    "imageUrl": "https://raw.githubusercontent.com/RadimNurmamedov/Table_Time_Game/master/data/images/s1_ep6.jpg"
   },
   {
     "gameTitle": "Кубики",
@@ -102,7 +102,7 @@
       "Удача"
     ],
     "winner": "SERGEY",
-    "imageUrl": "https://raw.githubusercontent.com/RadimNurmamedov/Table_Time_Game/main/data/images/s1_ep7.jpg"
+    "imageUrl": "https://raw.githubusercontent.com/RadimNurmamedov/Table_Time_Game/master/data/images/s1_ep7.jpg"
   },
   {
     "gameTitle": "Чапаев (Шашки)",
@@ -117,6 +117,6 @@
       "Финал"
     ],
     "winner": "SERGEY",
-    "imageUrl": "https://raw.githubusercontent.com/RadimNurmamedov/Table_Time_Game/main/data/images/s1_ep8.jpg"
+    "imageUrl": "https://raw.githubusercontent.com/RadimNurmamedov/Table_Time_Game/master/data/images/s1_ep8.jpg"
   }
 ]
