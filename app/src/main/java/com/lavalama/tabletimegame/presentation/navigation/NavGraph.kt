@@ -6,6 +6,8 @@ import androidx.navigation.NavGraph
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.lavalama.tabletimegame.presentation.screen.favorites.FavoritesGameCard
+import com.lavalama.tabletimegame.presentation.screen.favorites.FavoritesGamesScreen
 import com.lavalama.tabletimegame.presentation.screen.gameDetails.GameDetailsScreen
 import com.lavalama.tabletimegame.presentation.screen.gamesCatalog.GamesCatalogScreen
 
@@ -37,7 +39,12 @@ fun NavGraph(){
             )
         }
         composable (Screen.FavoritesGames.route){
-            //
+            FavoritesGamesScreen(
+                onGameClick = {gameId ->
+                    navController.navigate(Screen.GameDetails.createRoute(gameId))
+                },
+                onBack = { navController.popBackStack() }
+            )
         }
         composable (Screen.Settings.route){
             //
