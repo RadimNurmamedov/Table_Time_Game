@@ -170,8 +170,8 @@ fun FavoritesGameCard(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp)
-            .clickable { onGameClick() },
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        onClick = onGameClick,
         shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
@@ -181,7 +181,8 @@ fun FavoritesGameCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .aspectRatio(16f / 9f)
-                .clip(RoundedCornerShape(16.dp)),
+//                .clip(RoundedCornerShape(16.dp)),
+                .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)),
             contentScale = ContentScale.Crop,
             error = painterResource(R.drawable.ic_launcher_background),
             placeholder = painterResource(R.drawable.ic_launcher_background)

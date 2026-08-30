@@ -18,10 +18,18 @@ data class TTGameDto(
 
     @SerialName("fullRules")
     val fullRules: String,   // Подробные правила
-    @SerialName("genre")
-    val genre: List<String>,       // Блеф, Реакция, Ассоциации и т.д.
     @SerialName("winner")
     val winner: String, // Кто забрал баллы/раунд
     @SerialName("imageUrl")
     val imageUrl: String,
-)
+
+    @SerialName("filters")
+    val filters: Map<String, List<String>>,
+    @SerialName("quotes")
+    val quotes: List<String>,
+    @SerialName("inventory")
+    val inventory: List<String>,
+    @SerialName("videoUrl")
+    val videoUrl: String,
+
+    )

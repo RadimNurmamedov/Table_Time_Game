@@ -17,11 +17,14 @@ fun List<TTGameDto>.toDbModel(): List<TTGameDbModel> {
             host = it.host,
             shortRules = it.shortRules,
             fullRules = it.fullRules,
-            genre = it.genre,
             winner = it.winner,
             imageUrl = it.imageUrl,
             isFavorite = false,
-            myComment = ""
+            myComment = "",
+            filters = it.filters,
+            quotes = it.quotes,
+            inventory = it.inventory,
+            videoUrl = it.videoUrl,
         )
     }
 }
@@ -36,11 +39,14 @@ fun List<TTGameDbModel>.toEntities(): List<TTGame> {
             host = TTImproMember.valueOf(gameDbModel.host),
             shortRules = gameDbModel.shortRules,
             fullRules = gameDbModel.fullRules,
-            genre = gameDbModel.genre,
             winner = TTImproMember.valueOf(gameDbModel.winner),
             imageUrl = gameDbModel.imageUrl,
             isFavorite = gameDbModel.isFavorite,
-            myComment = gameDbModel.myComment
+            myComment = gameDbModel.myComment,
+            filters = gameDbModel.filters,
+            quotes = gameDbModel.quotes,
+            inventory = gameDbModel.inventory,
+            videoUrl = gameDbModel.videoUrl,
         )
     }
 }
@@ -54,11 +60,14 @@ fun TTGameDbModel.toEntity(): TTGame {
         host = TTImproMember.valueOf(host),
         shortRules = shortRules,
         fullRules = fullRules,
-        genre = genre,
         winner = TTImproMember.valueOf(winner),
         imageUrl = imageUrl,
         isFavorite = isFavorite,
-        myComment = myComment
+        myComment = myComment,
+        filters = filters,
+        quotes = quotes,
+        inventory = inventory,
+        videoUrl = videoUrl,
     )
 }
 

@@ -17,9 +17,13 @@ data class TTGameDbModel(
     val host: String, // Кто принес игру
     val shortRules: String,  // Краткое описание
     val fullRules: String,   // Подробные правила
-    val genre: List<String>,       // Блеф, Реакция, Ассоциации и т.д.
     val winner: String, // Кто забрал баллы/раунд
     val imageUrl: String,
     val isFavorite: Boolean = false,
-    val myComment: String = ""
-)
+    val myComment: String = "",
+
+    val filters: Map<String, List<String>>,
+    val quotes: List<String>,
+    val inventory: List<String>,
+    val videoUrl: String,
+    )

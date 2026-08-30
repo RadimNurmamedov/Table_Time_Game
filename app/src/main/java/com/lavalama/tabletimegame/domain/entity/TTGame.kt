@@ -5,12 +5,15 @@ data class TTGame(
     val title: String,
     val season: Int,
     val episodeNumber: Int,
-    val host: TTImproMember, // Кто принес игру
     val shortRules: String,  // Краткое описание
     val fullRules: String,   // Подробные правила
-    val genre: List<String>,       // Блеф, Реакция, Ассоциации и т.д.
+    val filters: Map<String, List<String>>,
+    val quotes: List<String>,
+    val inventory: List<String>,
+    val host: TTImproMember, // Кто принес игру
     val winner: TTImproMember, // Кто забрал баллы/раунд
     val imageUrl: String,
+    val videoUrl: String,
     val isFavorite: Boolean = false,
     val myComment: String = ""
 )

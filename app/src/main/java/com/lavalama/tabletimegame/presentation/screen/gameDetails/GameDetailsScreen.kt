@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -75,6 +76,7 @@ fun GameDetailsScreen(
                 )
             }
         }
+
         GameDetailsState.Loading -> {
             Box(
                 modifier = modifier,
@@ -159,11 +161,14 @@ fun GameDetailsStateContent(
                     content = game.winner.displayName
                 )
             }
-            item {
-                CardDetail(
-                    title = "Жанры",
-                    content = game.genre.joinToString(";")
-                )
+
+            for (filter in game.filters.keys) {
+                item {
+                    CardDetail(
+                        title = filter,
+                        content = game.filters[filter]?.joinToString(";  ") ?: ""
+                    )
+                }
             }
         }
     }
@@ -205,8 +210,7 @@ fun CardDetail(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp)
-            ,
+            .padding(horizontal = 16.dp, vertical = 8.dp),
         shape = RoundedCornerShape(8.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
