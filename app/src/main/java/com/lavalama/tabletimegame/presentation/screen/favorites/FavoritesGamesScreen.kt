@@ -37,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil3.compose.AsyncImage
@@ -114,7 +115,7 @@ fun Content(
         topBar = {
             TopAppBar(
                 title = {
-                    Text("Favorites Games")
+                    Text(stringResource(R.string.favorites_games))
                 },
                 navigationIcon = {
                     IconButton(
@@ -122,7 +123,7 @@ fun Content(
                     ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Default.ArrowBack,
-                            contentDescription = "Back"
+                            contentDescription = stringResource(R.string.back)
                         )
                     }
                 }
@@ -132,23 +133,40 @@ fun Content(
         LazyColumn(
             contentPadding = innerPadding
         ) {
-            items(
-                items = state.favoriteGames,
-                key = { it.id }
-            ) { game ->
-                val isEditingThisGame = state.editedCommentToGameById == game.id
-
-                FavoritesGameCard(
-                    game = game,
-                    isEditing = isEditingThisGame,
-                    editingText = if (isEditingThisGame) state.comment else game.myComment,
-                    isSaveEnabled = state.isEnableToSaveComment,
-                    onGameClick = { onGameClick(game.id) },
-                    onStartEditComment = { onStartEditComment(game.id) },
-                    onCommentChanged = onCommentChanged,
-                    onCancelEditedComment = onCancelEditedComment,
-                    onSaveComment = onSaveComment
-                )
+            if (state.favoriteGames.isEmpty()){
+                item {
+                    Card(
+                        modifier = modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 8.dp),
+                        shape = RoundedCornerShape(16.dp),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+                    ) {
+                        Text(
+                            modifier = Modifier.padding(8.dp),
+                            text = stringResource(R.string.not_added_favorites_games),
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                    }
+                }
+            } else {
+                items(
+                    items = state.favoriteGames,
+                    key = { it.id }
+                ) { game ->
+                    val isEditingThisGame = state.editedCommentToGameById == game.id
+                    FavoritesGameCard(
+                        game = game,
+                        isEditing = isEditingThisGame,
+                        editingText = if (isEditingThisGame) state.comment else game.myComment,
+                        isSaveEnabled = state.isEnableToSaveComment,
+                        onGameClick = { onGameClick(game.id) },
+                        onStartEditComment = { onStartEditComment(game.id) },
+                        onCommentChanged = onCommentChanged,
+                        onCancelEditedComment = onCancelEditedComment,
+                        onSaveComment = onSaveComment
+                    )
+                }
             }
         }
     }
@@ -208,12 +226,12 @@ fun FavoritesGameCard(
                     value = editingText,
                     onValueChange = onCommentChanged,
                     modifier = Modifier.fillMaxWidth(),
-                    label = { Text("My comment") },
+                    label = { Text(stringResource(R.string.my_comment)) },
                     leadingIcon = {
                         IconButton(onClick = onCancelEditedComment) {
                             Icon(
                                 imageVector = Icons.Default.Close,
-                                contentDescription = "Cancel"
+                                contentDescription = stringResource(R.string.cancel)
                             )
                         }
                     },
@@ -224,7 +242,7 @@ fun FavoritesGameCard(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Done,
-                                contentDescription = "Save"
+                                contentDescription = stringResource(R.string.save)
                             )
                         }
                     },
@@ -238,7 +256,7 @@ fun FavoritesGameCard(
                         .padding(vertical = 4.dp)
                 ) {
                     Text(
-                        text = if (game.myComment.isNotBlank()) game.myComment else "Add a comment...",
+                        text = game.myComment.ifBlank { stringResource(R.string.add_a_comment) },
                         style = MaterialTheme.typography.bodySmall,
                         color = if (game.myComment.isNotBlank()) MaterialTheme.colorScheme.onSurface
                         else MaterialTheme.colorScheme.outline,
@@ -246,7 +264,7 @@ fun FavoritesGameCard(
                     )
                     Icon(
                         imageVector = Icons.Default.Edit,
-                        contentDescription = "Edit comment",
+                        contentDescription = stringResource(R.string.edit_comment),
                         modifier = Modifier.align(Alignment.CenterEnd)
                     )
                 }

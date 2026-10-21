@@ -33,6 +33,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -139,36 +140,58 @@ fun GameDetailsStateContent(
             }
             item {
                 CardDetail(
-                    title = "Описание",
+                    title = stringResource(R.string.description),
                     content = game.shortRules
                 )
             }
             item {
                 CardDetail(
-                    title = "Правила",
+                    title = stringResource(R.string.rules),
                     content = game.fullRules
                 )
             }
             item {
+                if (game.inventory.isNotEmpty()) {
+                    CardDetail(
+                        title = stringResource(R.string.inventory),
+                        content = game.inventory.joinToString(";  ")
+                    )
+                }
+            }
+            item {
                 CardDetail(
-                    title = "Ведущий",
+                    title = stringResource(R.string.host),
                     content = game.host.displayName
                 )
             }
             item {
                 CardDetail(
-                    title = "Победитель",
+                    title = stringResource(R.string.winner),
                     content = game.winner.displayName
                 )
             }
-
-            for (filter in game.filters.keys) {
-                item {
+            item {
+                if (game.quotes.isNotEmpty()) {
                     CardDetail(
-                        title = filter,
-                        content = game.filters[filter]?.joinToString(";  ") ?: ""
+                        title = stringResource(R.string.quotes),
+                        content = game.quotes.joinToString("\n")
                     )
                 }
+            }
+            item {
+                CardDetail(
+                    title = stringResource(R.string.episode),
+                    content = game.videoUrl
+                )
+            }
+            items(
+                items = game.filters.keys.toList(),
+                key = { it }
+            ) { filter ->
+                CardDetail(
+                    title = filter,
+                    content = game.filters[filter]?.joinToString(";  ") ?: ""
+                )
             }
         }
     }

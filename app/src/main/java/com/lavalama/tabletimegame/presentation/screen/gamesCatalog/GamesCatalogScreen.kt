@@ -34,7 +34,6 @@ import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -67,6 +66,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -88,22 +88,22 @@ fun GamesCatalogScreen(
         modifier = modifier,
         topBar = {
             TopAppBar(
-                title = { Text("Table Time") },
+                title = { Text(stringResource(R.string.table_time_title)) },
                 actions = {
-                    IconButton(
-                        onClick = onSettingsNavigate
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Settings,
-                            contentDescription = "Open Settings screen"
-                        )
-                    }
+//                    IconButton(
+//                        onClick = onSettingsNavigate
+//                    ) {
+//                        Icon(
+//                            imageVector = Icons.Default.Settings,
+//                            contentDescription = "Open Settings screen"
+//                        )
+//                    }
                     IconButton(
                         onClick = onFavoriteNavigate
                     ) {
                         Icon(
                             imageVector = Icons.Default.Favorite,
-                            contentDescription = "Open Favorites games screen",
+                            contentDescription = stringResource(R.string.open_favorites_games_screen),
                             tint = Color.Red
                         )
                     }
@@ -224,14 +224,14 @@ fun SearchPanel(
         },
         readOnly = false,
         label = {
-            Text("Enter game title")
+            Text(stringResource(R.string.enter_game_title))
         },
         leadingIcon = {
             if (query.isNotEmpty()){
                 IconButton( onClearQuery ) {
                     Icon(
                         imageVector = Icons.Default.Clear,
-                        contentDescription = "Clear query"
+                        contentDescription = stringResource(R.string.clear_query)
                     )
                 }
             }
@@ -239,7 +239,7 @@ fun SearchPanel(
         trailingIcon = {
             Icon(
                 imageVector = Icons.Default.Search,
-                contentDescription = "Search game"
+                contentDescription = stringResource(R.string.search_games)
             )
         },
         shape = RoundedCornerShape(12.dp),
@@ -265,14 +265,16 @@ fun SeasonHeader(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Сезон $seasonNumber",
+                text = stringResource(R.string.season_number, seasonNumber),
                 modifier = Modifier
                     .weight(1f),
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
             )
             Icon(
                 imageVector = Icons.Default.KeyboardArrowDown,
-                contentDescription = if (isExpanded) "Свернуть" else "Развернуть",
+                contentDescription =
+                    if (isExpanded) stringResource(R.string.minimize)
+                    else stringResource(R.string.open),
                 modifier = Modifier.rotate(arrowRotation)
             )
         }
@@ -322,7 +324,7 @@ fun GameCard(
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = "${game.episodeNumber} серия",
+                    text = stringResource(R.string.episode_number, game.episodeNumber),
                     style = MaterialTheme.typography.bodyMedium,
                     color = Color.Gray
                 )
@@ -375,7 +377,7 @@ fun GroupedFilterPanel(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Close,
-                        contentDescription = "Сбросить все фильтры"
+                        contentDescription = stringResource(R.string.drop_all_filters)
                     )
                 }
             }
@@ -479,13 +481,13 @@ private fun FilterBottomSheet(
                         onApply(emptyList())
                     }
                 ) {
-                    Text("Сбросить")
+                    Text(stringResource(R.string.drop))
                 }
 
                 Button(
                     onClick = { onApply(tempFilters.toList()) }
                 ) {
-                    Text("Применить")
+                    Text(stringResource(R.string.apply))
                 }
             }
         }

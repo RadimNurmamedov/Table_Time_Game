@@ -1,3 +1,30 @@
 <resources>
     <string name="app_name">Table Time Game</string>
+    <string name="apply" translatable="false">Применить</string>
+    <string name="drop" translatable="false">Сбросить</string>
+    <string name="drop_all_filters" translatable="false">Сбросить все фильтры</string>
+    <string name="episode_number" translatable="false">%1$d серия</string>
+    <string name="minimize" translatable="false">Свернуть</string>
+    <string name="open" translatable="false">Развернуть</string>
+    <string name="season_number">Сезон %1$d</string>
+    <string name="search_games" translatable="false">Поиск игр</string>
+    <string name="clear_query" translatable="false">Отчистить запрос</string>
+    <string name="enter_game_title" translatable="false">Введите название игры</string>
+    <string name="open_favorites_games_screen" translatable="false">Открыть экран избранных игр</string>
+    <string name="table_time_title" translatable="false">Table Time</string>
+    <string name="favorites_games" translatable="false">Любимые игры</string>
+    <string name="back" translatable="false">Назад</string>
+    <string name="my_comment" translatable="false">Мой комментарий</string>
+    <string name="cancel" translatable="false">Отмена</string>
+    <string name="save">Сохранить</string>
+    <string name="add_a_comment" translatable="false">Добавить комментарий…</string>
+    <string name="edit_comment" translatable="false">Редактировать комментарий</string>
+    <string name="description" translatable="false">Описание</string>
+    <string name="rules" translatable="false">Правила</string>
+    <string name="inventory" translatable="false">Инвентарь</string>
+    <string name="host" translatable="false">Ведущий</string>
+    <string name="winner" translatable="false">Победитель</string>
+    <string name="quotes">Цитаты</string>
+    <string name="episode" translatable="false">Выпуск</string>
+    <string name="not_added_favorites_games">Вы еще не добавили свои любимые игры :(</string>
 </resources>
