@@ -194,7 +194,7 @@
     },
     "inventory": ["Поле для зарисовок", "Диктофон для диктовки слов", "Маркер"],
     "winner": "SHAST",
-    "imageUrl": "https://github.com/RadimNurmamedov/Table_Time_Game/blob/master/data/images/s8_e1.jpg",
+    "imageUrl": "https://raw.githubusercontent.com/RadimNurmamedov/Table_Time_Game/master/data/images/s8_e1.jpg",
     "videoUrl": "https://vkvideo.ru/video-203677279_456242788"
   }
 ]
