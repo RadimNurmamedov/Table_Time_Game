@@ -3,9 +3,11 @@ package com.lavalama.tabletimegame.presentation.screen.gamesCatalog
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lavalama.tabletimegame.domain.entity.TTGame
+import com.lavalama.tabletimegame.domain.repository.CodUpdating
 import com.lavalama.tabletimegame.domain.usecase.GetAllGamesUseCase
 import com.lavalama.tabletimegame.domain.usecase.StartRefreshDataUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -27,11 +29,26 @@ class GamesCatalogViewModel @Inject constructor(
 
 
     init {
-        viewModelScope
-            .launch {
-                startRefreshDataUseCase()
-            }
+        startRefreshData()
         observeTTGamesFlow()
+    }
+    private fun startRefreshData() {
+        viewModelScope.apply {
+            _state.update { previousState ->
+                previousState.copy(
+                    updateStatus = CodUpdating.UpdateProcess
+                )
+            }
+            val attempt = async { startRefreshDataUseCase() }
+            launch {
+                val result = attempt.await()
+                _state.update { previousState ->
+                    previousState.copy(
+                        updateStatus = result
+                    )
+                }
+            }
+        }
     }
 
     private fun observeTTGamesFlow() {
@@ -39,27 +56,10 @@ class GamesCatalogViewModel @Inject constructor(
             .onEach { games ->
                 _state.update { currentState ->
                     currentState.copy(
-                        ttGames = games,
-                        availableFilters = getAvailableFilters(games),
+                        ttGames = games
                     )
                 }
             }.launchIn(viewModelScope)
-    }
-    private fun getAvailableFilters(allGames: List<TTGame>): Map<String, List<String>>{
-        if (allGames.isEmpty()) return emptyMap()
-        // 1. Собираем все уникальные категории (ключи) со всех игр
-        val allKeys = allGames
-            .flatMapTo(HashSet()) {
-                it.filters.keys
-            }
-        // 2. Для каждого ключа собираем уникальные теги со всех игр
-        return allKeys.associateWith { key ->
-            allGames
-                .flatMap { game ->
-                    game.filters[key].orEmpty()
-                }
-                .distinct()
-        }
     }
 
     fun processCommand(command: GamesCatalogCommand) {
@@ -89,6 +89,12 @@ class GamesCatalogViewModel @Inject constructor(
                     currentState.copy(searchQuery = "")
                 }
             }
+
+            GamesCatalogCommand.RefreshData -> {
+                if (_state.value.updateStatus !is CodUpdating.UpdateProcess){
+                    startRefreshData()
+                }
+            }
         }
     }
 }
@@ -103,17 +109,56 @@ sealed interface GamesCatalogCommand {
 
     data object ClearAllFilters : GamesCatalogCommand
     data object ClearQuery : GamesCatalogCommand
+    data object RefreshData : GamesCatalogCommand
 }
 
 data class GamesCatalogState(
     val ttGames: List<TTGame> = listOf(),
     val searchQuery: String = "",
-    val availableFilters: Map<String, List<String>> = emptyMap(),
-    val currentFilters: Map<String, List<String>> = emptyMap()
+    val currentFilters: Map<String, List<String>> = emptyMap(),
+    val updateStatus: CodUpdating = CodUpdating.UpdateProcess
 ) {
+    val availableFilters: Map<String, List<Map<String, Int>>>
+        get() {
+            if (ttGames.isEmpty()) return emptyMap()
+
+            val allCategories = ttGames.flatMapTo(HashSet()) { it.filters.keys }
+
+            return allCategories.associateWith { category ->
+                val filtersWithoutThisCategory = currentFilters.filter { it.key != category && it.value.isNotEmpty() }
+
+                val baseGames = ttGames.filter { game ->
+                    val matchesQuery = searchQuery.isBlank() ||
+                            game.toString().contains(searchQuery, ignoreCase = true)
+
+                    if (!matchesQuery) return@filter false
+
+                    filtersWithoutThisCategory.all { (cat, selectedValues) ->
+                        val gameCatValues = game.filters[cat].orEmpty()
+                        selectedValues.any { selectedTag ->
+                            gameCatValues.contains(selectedTag)
+                        }
+                    }
+                }
+
+                val allTagsForCategory = ttGames
+                    .flatMap { it.filters[category].orEmpty() }
+                    .distinct()
+
+                allTagsForCategory.map { tag ->
+                    val count = baseGames.count { game ->
+                        game.filters[category].orEmpty().contains(tag)
+                    }
+                    mapOf(tag to count)
+                }
+            }
+        }
+
     val sortedFilterKeys: List<String>
-        get() = availableFilters.keys.sortedByDescending {key->
-            currentFilters[key]?.isNotEmpty() == true
+        get() {
+            return availableFilters.keys.sortedByDescending {key->
+                currentFilters[key]?.isNotEmpty() == true
+            }
         }
     val filteredGames: List<TTGame>
     get() {
@@ -124,7 +169,7 @@ data class GamesCatalogState(
         return ttGames.filter { game ->
             // 1. Проверка по поисковому запросу
             val matchesQuery = searchQuery.isBlank() ||
-                    game.title.contains(searchQuery, ignoreCase = true)
+                    game.toString().contains(searchQuery, ignoreCase = true)
 
             if (!matchesQuery) return@filter false
 

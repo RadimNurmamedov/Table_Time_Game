@@ -191,7 +191,10 @@ fun FavoritesGameCard(
             .padding(horizontal = 16.dp, vertical = 8.dp),
         onClick = onGameClick,
         shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer
+        )
     ) {
         AsyncImage(
             model = game.imageUrl,
@@ -213,12 +216,14 @@ fun FavoritesGameCard(
         ) {
             Text(
                 text = game.title,
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onPrimary
             )
             Spacer(Modifier.height(4.dp))
             Text(
                 text = game.shortRules,
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSecondary
             )
             Spacer(Modifier.height(4.dp))
             if (isEditing) {

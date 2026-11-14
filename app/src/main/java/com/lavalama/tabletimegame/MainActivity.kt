@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.lavalama.tabletimegame.data.repository.TTRepositoryImpl
+import com.lavalama.tabletimegame.domain.repository.TTRepository
 import com.lavalama.tabletimegame.presentation.navigation.NavGraph
 import com.lavalama.tabletimegame.presentation.screen.gameDetails.GameDetailsScreen
 import com.lavalama.tabletimegame.presentation.theme.ui.TableTimeGameTheme
@@ -13,7 +14,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    @Inject lateinit var repository: TTRepositoryImpl
+    @Inject lateinit var repository: TTRepository
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

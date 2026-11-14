@@ -1,11 +1,13 @@
 package com.lavalama.tabletimegame.presentation.screen.gamesCatalog
 
+import android.widget.ProgressBar
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -34,21 +36,28 @@ import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SelectableChipColors
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -73,6 +82,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil3.compose.AsyncImage
 import com.lavalama.tabletimegame.R
 import com.lavalama.tabletimegame.domain.entity.TTGame
+import com.lavalama.tabletimegame.domain.repository.CodUpdating
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -89,7 +99,30 @@ fun GamesCatalogScreen(
         topBar = {
             TopAppBar(
                 title = { Text(stringResource(R.string.table_time_title)) },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.background,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimary
+                ),
                 actions = {
+                    when (state.updateStatus) {
+                        is CodUpdating.UpdateErrors -> {
+                            Icon(
+                                imageVector = Icons.Default.Warning,
+                                contentDescription = null
+                            )
+                        }
+
+                        CodUpdating.UpdateProcess -> {
+                            CircularProgressIndicator(modifier = Modifier.size(24.dp))
+                        }
+
+                        CodUpdating.UpdateSuccess -> {
+                            Icon(
+                                imageVector = Icons.Default.Done,
+                                contentDescription = null
+                            )
+                        }
+                    }
 //                    IconButton(
 //                        onClick = onSettingsNavigate
 //                    ) {
@@ -114,49 +147,60 @@ fun GamesCatalogScreen(
         val gamesBySeason = remember(state.filteredGames) {
             state.filteredGames.groupBy { it.season }
         }
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            contentPadding = innerPadding
+        PullToRefreshBox(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .background(MaterialTheme.colorScheme.background),
+
+            onRefresh = {
+                viewModel.processCommand(GamesCatalogCommand.RefreshData)
+            },
+            isRefreshing = state.updateStatus is CodUpdating.UpdateProcess
         ) {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize()
+            ) {
 
-            item {
-                SearchPanel(
-                    query = state.searchQuery,
-                    onInputQuery = {
-                        viewModel.processCommand(GamesCatalogCommand.InputGameTitle(it))
-                    },
-                    onClearQuery = {
-                        viewModel.processCommand(GamesCatalogCommand.ClearQuery)
-                    }
-                )
-            }
-
-            item {
-                GroupedFilterPanel(
-                    filters = state.availableFilters,
-                    currentFilters = state.currentFilters,
-                    sortedFilterKeys = state.sortedFilterKeys,
-                    onClearAllFilters = {
-                        viewModel.processCommand(GamesCatalogCommand.ClearAllFilters)
-                    },
-                    onFiltersChanged = { filterTitle, value ->
-                        viewModel.processCommand(
-                            GamesCatalogCommand.ChangeFilters(
-                                filter = filterTitle,
-                                newValues = value
-                            )
-                        )
-                    },
-                )
-            }
-
-            gamesBySeason.forEach { (seasonNumber, seasonGames) ->
-                item(key = "season_$seasonNumber") {
-                    SeasonGroup(
-                        seasonNumber = seasonNumber,
-                        games = seasonGames,
-                        onGameClick = onGameDetailsNavigate
+                item {
+                    SearchPanel(
+                        query = state.searchQuery,
+                        onInputQuery = {
+                            viewModel.processCommand(GamesCatalogCommand.InputGameTitle(it))
+                        },
+                        onClearQuery = {
+                            viewModel.processCommand(GamesCatalogCommand.ClearQuery)
+                        }
                     )
+                }
+
+                item {
+                    GroupedFilterPanel(
+                        filters = state.availableFilters,
+                        currentFilters = state.currentFilters,
+                        sortedFilterKeys = state.sortedFilterKeys,
+                        onClearAllFilters = {
+                            viewModel.processCommand(GamesCatalogCommand.ClearAllFilters)
+                        },
+                        onFiltersChanged = { filterTitle, value ->
+                            viewModel.processCommand(
+                                GamesCatalogCommand.ChangeFilters(
+                                    filter = filterTitle,
+                                    newValues = value
+                                )
+                            )
+                        },
+                    )
+                }
+
+                gamesBySeason.forEach { (seasonNumber, seasonGames) ->
+                    item(key = "season_$seasonNumber") {
+                        SeasonGroup(
+                            seasonNumber = seasonNumber,
+                            games = seasonGames,
+                            onGameClick = onGameDetailsNavigate
+                        )
+                    }
                 }
             }
         }
@@ -224,11 +268,11 @@ fun SearchPanel(
         },
         readOnly = false,
         label = {
-            Text(stringResource(R.string.enter_game_title))
+            Text(stringResource(R.string.enter_search_word))
         },
         leadingIcon = {
-            if (query.isNotEmpty()){
-                IconButton( onClearQuery ) {
+            if (query.isNotEmpty()) {
+                IconButton(onClearQuery) {
                     Icon(
                         imageVector = Icons.Default.Clear,
                         contentDescription = stringResource(R.string.clear_query)
@@ -292,7 +336,10 @@ fun GameCard(
             .padding(horizontal = 16.dp, vertical = 8.dp)
             .clickable { onClick(game.id) },
         shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer
+        )
     ) {
         Row(
             modifier = Modifier
@@ -320,13 +367,14 @@ fun GameCard(
             ) {
                 Text(
                     text = game.title,
-                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
+                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = stringResource(R.string.episode_number, game.episodeNumber),
                     style = MaterialTheme.typography.bodyMedium,
-                    color = Color.Gray
+                    color = MaterialTheme.colorScheme.onSecondary
                 )
             }
             // Индикатор избранного
@@ -345,7 +393,7 @@ fun GameCard(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GroupedFilterPanel(
-    filters: Map<String, List<String>>,
+    filters: Map<String, List<Map<String, Int>>>,
     currentFilters: Map<String, List<String>>,
     sortedFilterKeys: List<String>,
     onFiltersChanged: (String, List<String>) -> Unit,
@@ -397,7 +445,11 @@ fun GroupedFilterPanel(
                 },
                 trailingIcon = {
                     Icon(Icons.Default.ArrowDropDown, contentDescription = null)
-                }
+                },
+                colors = FilterChipDefaults.filterChipColors(
+                    containerColor = MaterialTheme.colorScheme.surfaceContainer,
+                    selectedContainerColor = MaterialTheme.colorScheme.secondaryContainer
+                )
             )
         }
     }
@@ -421,7 +473,7 @@ fun GroupedFilterPanel(
 @Composable
 private fun FilterBottomSheet(
     filterTitle: String,
-    filtersValues: List<String>,
+    filtersValues: List<Map<String, Int>>,
     selectedValues: List<String>,
     onDismiss: () -> Unit,
     onApply: (List<String>) -> Unit
@@ -451,15 +503,25 @@ private fun FilterBottomSheet(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                filtersValues.forEach { filter ->
-                    val isSelected = filter in tempFilters
+                filtersValues.forEach { filterMap ->
+                    val tag = filterMap.keys.firstOrNull() ?: return@forEach
+                    val count = filterMap.values.firstOrNull() ?: 0
+                    val isSelected = tag in tempFilters
+                    val isEnabled = count > 0 || isSelected
+
                     FilterChip(
                         selected = isSelected,
+                        enabled = isEnabled,
                         onClick = {
-                            if (isSelected) tempFilters.remove(filter)
-                            else tempFilters.add(filter)
+                            if (isSelected) {
+                                tempFilters.remove(tag)
+                            } else if (count > 0) {
+                                tempFilters.add(tag)
+                            }
                         },
-                        label = { Text(filter) },
+                        label = {
+                            Text("$tag ($count)")
+                        },
                         leadingIcon = if (isSelected) {
                             { Icon(Icons.Default.Done, contentDescription = null) }
                         } else null,

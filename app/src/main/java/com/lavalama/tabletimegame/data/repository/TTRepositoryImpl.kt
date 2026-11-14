@@ -8,6 +8,7 @@ import com.lavalama.tabletimegame.data.mapper.toEntities
 import com.lavalama.tabletimegame.data.mapper.toEntity
 import com.lavalama.tabletimegame.data.remote.TTGamesApiService
 import com.lavalama.tabletimegame.domain.entity.TTGame
+import com.lavalama.tabletimegame.domain.repository.CodUpdating
 import com.lavalama.tabletimegame.domain.repository.TTRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -25,8 +26,8 @@ class TTRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun refreshTTGames() {
-        try {
+    override suspend fun refreshTTGames(): CodUpdating {
+        return try {
             // 1. Получаем свежий список с сервера
             val remoteGames = apiService.loadGames().toDbModel()
 
@@ -51,10 +52,11 @@ class TTRepositoryImpl @Inject constructor(
             }
             // 4. Записываем слияние обратно в Room
             dao.insertTTGames(mergedGames)
-
+            CodUpdating.UpdateSuccess
         } catch (e: Exception) {
             if (e is CancellationException) throw e
             Log.e("TTGamesLogs", "NETWORK ERROR: ${e.message}", e)
+            CodUpdating.UpdateErrors(error = e.message ?: "Unknown error")
         }
     }
 

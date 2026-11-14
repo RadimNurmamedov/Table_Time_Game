@@ -1,5 +1,6 @@
 package com.lavalama.tabletimegame.presentation.screen.gameDetails
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -32,8 +33,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -179,9 +182,9 @@ fun GameDetailsStateContent(
                 }
             }
             item {
-                CardDetail(
+                CardDetailUrl(
                     title = stringResource(R.string.episode),
-                    content = game.videoUrl
+                    url = game.videoUrl
                 )
             }
             items(
@@ -207,7 +210,7 @@ fun CardPoster(
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp),
         shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
     ) {
 //         Картинка во всю ширину с сохранением пропорций 16:9
         AsyncImage(
@@ -235,19 +238,51 @@ fun CardDetail(
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp),
         shape = RoundedCornerShape(8.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer
+        )
     ) {
         Text(
             modifier = Modifier.padding(horizontal = 8.dp),
             text = title,
             style = MaterialTheme.typography.labelLarge,
-            color = MaterialTheme.colorScheme.primary
+            color = MaterialTheme.colorScheme.onPrimary
         )
         Spacer(Modifier.height(4.dp))
         Text(
             modifier = Modifier.padding(horizontal = 8.dp),
             text = content,
-            style = MaterialTheme.typography.bodyMedium
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSecondary
+        )
+    }
+}
+
+@Composable
+fun CardDetailUrl(
+    modifier: Modifier = Modifier,
+    title: String,
+    url: String
+) {
+    val uriHandler = LocalUriHandler.current
+    Card(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        shape = RoundedCornerShape(8.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+    ) {
+        Text(
+            modifier = Modifier
+                .padding(horizontal = 8.dp)
+                .clickable {
+                    uriHandler.openUri(url)
+                },
+            text = title,
+            style = MaterialTheme.typography.labelLarge,
+            color = MaterialTheme.colorScheme.onPrimary,
+            textDecoration = TextDecoration.Underline
         )
     }
 }

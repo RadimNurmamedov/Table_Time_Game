@@ -31,17 +31,35 @@ private val LightColorScheme = lightColorScheme(
     onSurface = Color(0xFF1C1B1F),
     */
 )
-
 val TableTimeLightColorScheme = lightColorScheme(
-    primary = AmberGold,
-    onPrimary = White,
-    background = LightBackground,
+    primary = red1,
+    onPrimary = LightTextPrimary,
+
+    background = AmberGold,
+
+    secondary = LightBackground,
+    onSecondary = LightTextSecondary,
+
+    primaryContainer = LightSurface,
+    surfaceContainer = LightBackground,
+    secondaryContainer = Purple80,
+
     surface = LightSurface,
     surfaceVariant = LightSurfaceVariant,
     onBackground = LightTextPrimary,
     onSurface = LightTextPrimary,
     outline = LightTextSecondary
 )
+//val TableTimeLightColorScheme = lightColorScheme(
+//    primary = AmberGold,
+//    onPrimary = White,
+//    background = LightBackground,
+//    surface = LightSurface,
+//    surfaceVariant = LightSurfaceVariant,
+//    onBackground = LightTextPrimary,
+//    onSurface = LightTextPrimary,
+//    outline = LightTextSecondary
+//)
 
 val TableTimeDarkColorScheme = darkColorScheme(
     primary = AmberGoldDark,
@@ -67,7 +85,7 @@ fun TableTimeGameTheme(
         }
 
         darkTheme -> TableTimeDarkColorScheme
-        else -> LightColorScheme
+        else -> TableTimeLightColorScheme
     }
 
     MaterialTheme(

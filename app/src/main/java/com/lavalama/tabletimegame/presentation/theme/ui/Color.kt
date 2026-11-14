@@ -42,3 +42,6 @@ val ShastunYellow = Color(0xFFFFC107)  // Энергичный желтый
 val PozovGreen = Color(0xFF4CAF50)     // Спокойный зеленый (эрудит)
 val ArsenyPurple = Color(0xFFAB47BC)    // Творческий пурпурный
 val SergeyRed = Color(0xFFEF5350)      // Азартный красный
+
+val yellow1 = Color(0xFFFFDC33)
+val red1 = Color(0xFFC10020)

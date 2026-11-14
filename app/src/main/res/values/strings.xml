@@ -9,7 +9,7 @@
     <string name="season_number">Сезон %1$d</string>
     <string name="search_games" translatable="false">Поиск игр</string>
     <string name="clear_query" translatable="false">Отчистить запрос</string>
-    <string name="enter_game_title" translatable="false">Введите название игры</string>
+    <string name="enter_search_word" translatable="false">Введите слово для поиска</string>
     <string name="open_favorites_games_screen" translatable="false">Открыть экран избранных игр</string>
     <string name="table_time_title" translatable="false">Table Time</string>
     <string name="favorites_games" translatable="false">Любимые игры</string>
