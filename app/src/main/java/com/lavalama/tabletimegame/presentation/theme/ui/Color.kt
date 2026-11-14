@@ -38,10 +38,10 @@ val TextPrimary = Color(0xFFF5EBE6)    // Основной текст (Warm Whit
 val TextSecondary = Color(0xFFA89990)  // Вторичный текст, таймкоды, подписи
 
 // Персональные цвета акцентов для парней (для аваторов и чипов)
-val ShastunYellow = Color(0xFFFFC107)  // Энергичный желтый
-val PozovGreen = Color(0xFF4CAF50)     // Спокойный зеленый (эрудит)
-val ArsenyPurple = Color(0xFFAB47BC)    // Творческий пурпурный
-val SergeyRed = Color(0xFFEF5350)      // Азартный красный
+val Shastun  =  Color(0xFF1B1C24)  // Энергичный желтый
+val Pozov = Color(0xFF0F39A9)     // Спокойный зеленый (эрудит)
+val Arseny = Color(0xFFEF5350)   // Творческий пурпурный
+val Sergey = Color(0xFFFFC107)     // Азартный красный
 
 val yellow1 = Color(0xFFFFDC33)
 val red1 = Color(0xFFC10020)

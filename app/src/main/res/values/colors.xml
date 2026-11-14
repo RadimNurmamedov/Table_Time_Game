@@ -7,4 +7,15 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="ic_dice_shadow">#40000000</color>
+    <color name="ic_dice_body">#FFC10020</color>
+    <color name="ic_dice_border">#FFFFB300</color>
+    <color name="ic_hourglass_body">#FF14080A</color>
+    <color name="ic_hourglass_sand">#FFFFD54F</color>
+
+    <color name="ic_dot_yellow">#FFFFD166</color>
+    <color name="ic_dot_black">#FF14080A</color>
+    <color name="ic_dot_red">#FFFF6B7A</color>
+    <color name="ic_dot_blue">#FF3B82F6</color>
 </resources>
